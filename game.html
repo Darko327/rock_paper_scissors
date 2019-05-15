@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title> Rock, paper, scissors </title>
+    </head>
+    <body>
+        <script>
+            function computerPlay() {
+                let rps = ["rock", "paper", "scissors"]
+                let computerSelection = rps[Math.floor(Math.random() * rps.length)]
+                return computerSelection;
+            }
+            function playerPlay() {
+                let playerSelection = prompt("Please select your choice", )
+                playerSelection = playerSelection.toLowerCase()
+                return playerSelection;
+            }
+
+            function playRound() {
+                let cSel = computerPlay();
+                let pSel = playerPlay();
+                let winner;
+                if (cSel == "rock") {
+                    if (pSel == "paper") {
+                        winner = "You have won.";
+                    }
+                    else if (pSel == "scissors") {
+                        winner = "The computer has won.";
+                    }
+                }
+                else if (cSel == "paper") {
+                    if (pSel == "rock") {
+                        winner = "The computer has won.";
+                    }
+                    else if (pSel == "scissors") {
+                        winner = "You have won.";
+                    }
+                }
+                else if (cSel == "scissors") {
+                    if (pSel == "rock") {
+                        winner = "You have won.";
+                    }
+                    else if (pSel == "paper") {
+                        winner = "The computer has won.";
+                    }
+                }
+                if (cSel === pSel) {
+                        winner = "Tied.";
+                }
+                console.log("You chose: " + pSel); 
+                console.log("Computer has chose: " + cSel);
+                console.log(winner);
+                return winner;
+            }
+
+            function game() {
+                let playerScore = 0;
+                let computerScore = 0;
+                let drawCount = 0;
+                let gameWinner;
+                let i = 0;
+                let roundWinner
+                while ( i < 5 ) {
+                    roundWinner = playRound();
+                    if (roundWinner == "You have won.") {
+                        playerScore += 1;
+                    }
+                    else if (roundWinner == "The computer has won.") {
+                        computerScore += 1;
+                    }
+                    else if (roundWinner == "Tied.") {
+                        drawCount += 1;
+                    }
+                    i++;
+                }
+                if (playerScore > computerScore) {
+                    gameWinner = "You have won the game!";
+                }
+                else if (playerScore < computerScore) {
+                    gameWinner = "The computer has won the game!"
+                }
+                else if (playerScore = computerScore) {
+                    gameWinner = "The game has ended tied."
+                }
+                alert("Your score: " + playerScore + "." + " " + "Computer score: " + computerScore + "." + " " + "Tied rounds: " + drawCount + "." + " " + gameWinner)
+            }
+            game();
+        </script>
+    </body>
+</html>
