@@ -4,89 +4,123 @@
     <head>
         <meta charset="UTF-8">
         <title> Rock, paper, scissors </title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="https://kit.fontawesome.com/8c0f0849c0.js"></script>
     </head>
     <body>
-        <script>
-            function computerPlay() {
-                let rps = ["rock", "paper", "scissors"]
-                let computerSelection = rps[Math.floor(Math.random() * rps.length)]
-                return computerSelection;
-            }
-            function playerPlay() {
-                let playerSelection = prompt("Please select your choice", )
-                playerSelection = playerSelection.toLowerCase()
-                return playerSelection;
-            }
+      <div id="wrapper">
+        <h1> Rock, paper, scissors </h1>
+        <h2> Choose your "weapon" : </h2>
+        <div id="buttons-wrapper">
+          <button id="rock"><i class="far fa-hand-rock"></i></br> Rock </button>
+          <button id="paper"><i class="far fa-hand-paper"></i></br> Paper </button>
+          <button id="scissors"><i class="far fa-hand-scissors"></i></br> Scissors </button>
+        </div>
+        <div id="results">
+          <p id="resultsInfo">
 
-            function playRound() {
-                let cSel = computerPlay();
-                let pSel = playerPlay();
-                let winner;
-                if (cSel == "rock") {
-                    if (pSel == "paper") {
-                        winner = "You have won.";
-                    }
-                    else if (pSel == "scissors") {
-                        winner = "The computer has won.";
-                    }
-                }
-                else if (cSel == "paper") {
-                    if (pSel == "rock") {
-                        winner = "The computer has won.";
-                    }
-                    else if (pSel == "scissors") {
-                        winner = "You have won.";
-                    }
-                }
-                else if (cSel == "scissors") {
-                    if (pSel == "rock") {
-                        winner = "You have won.";
-                    }
-                    else if (pSel == "paper") {
-                        winner = "The computer has won.";
-                    }
-                }
-                if (cSel === pSel) {
-                        winner = "Tied.";
-                }
-                console.log("You chose: " + pSel); 
-                console.log("Computer has chose: " + cSel);
-                console.log(winner);
-                return winner;
-            }
+          </p>
+          <div id="score">
+            <h3> Score: </h3>
+          </div>
+        </div>
+      </div>
+      <script>
 
-            function game() {
-                let playerScore = 0;
-                let computerScore = 0;
-                let drawCount = 0;
-                let gameWinner;
-                let i = 0;
-                let roundWinner
-                while ( i < 5 ) {
-                    roundWinner = playRound();
-                    if (roundWinner == "You have won.") {
-                        playerScore += 1;
-                    }
-                    else if (roundWinner == "The computer has won.") {
-                        computerScore += 1;
-                    }
-                    else if (roundWinner == "Tied.") {
-                        drawCount += 1;
-                    }
-                    i++;
+          function computerPlay() {
+              let rps = ["rock", "paper", "scissors"]
+              let computerSelection = rps[Math.floor(Math.random() * rps.length)]
+              return computerSelection;
+          }
+
+          let roundCount = 0;
+          let playerScore = 0;
+          let computerScore = 0;
+          let drawCount = 0;
+          let playerWins = 0;
+          let computerWins = 0;
+
+          let gameWins = document.createElement("p");
+          document.getElementById("score").appendChild(gameWins);
+
+          function playRound(pSel, cSel) {
+            let winner;
+          
+            if (cSel == "rock") {
+                if (pSel == "paper") {
+                    winner = "You have won.";
+                    playerScore += 1;
                 }
-                if (playerScore > computerScore) {
-                    gameWinner = "You have won the game!";
+                else if (pSel == "scissors") {
+                    winner = "The computer has won.";
+                    computerScore += 1;
                 }
-                else if (playerScore < computerScore) {
-                    gameWinner = "The computer has won the game!"
-                }
-                else if (playerScore = computerScore) {
-                    gameWinner = "The game has ended tied."
-                }
-                alert("Your score: " + playerScore + "." + " " + "Computer score: " + computerScore + "." + " " + "Tied rounds: " + drawCount + "." + " " + gameWinner)
+                roundCount += 1;
             }
-            game();
-        </script>
+            else if (cSel == "paper") {
+                if (pSel == "rock") {
+                    winner = "The computer has won."
+                    computerScore += 1;
+                }
+                else if (pSel == "scissors") {
+                    winner = "You have won.";
+                    playerScore += 1;
+                }
+                roundCount += 1;
+            }
+            else if (cSel == "scissors") {
+                if (pSel == "rock") {
+                    winner = "You have won.";
+                    playerScore += 1;
+                }
+                else if (pSel == "paper") {
+                    winner = "The computer has won.";
+                    computerScore += 1;
+                }
+                roundCount += 1;
+            }
+            if (cSel === pSel) {
+                    winner = "Tied.";
+                    drawCount += 1;
+            }
+            let roundWinnerShowcase = document.getElementById("resultsInfo");
+            roundWinnerShowcase.innerText = "Round " + roundCount + ": " + "\n" + "You chose: " + pSel + ", computer has chose: " + cSel + "\n" + winner;
+            gameWins.innerText = "Your wins " + ":" + " Computer wins" + "\n" + playerWins + "" + ":" + "" + computerWins
+            
+            if (playerScore == 5) {
+                alert("You have won the game!");
+                playerWins += 1
+                playerScore = 0;
+                computerScore = 0;
+                drawCount = 0;
+                roundCount = 0;
+                roundWinnerShowcase.innerText.remove();
+                }
+
+            if (computerScore == 5) {
+                alert("The computer has won the game!");
+                computerWins += 1;
+                playerScore = 0;
+                computerScore = 0;
+                drawCount = 0;
+                roundCount = 0;
+                roundWinnerShowcase.innerText.remove();
+                }
+
+            return winner;
+          }
+
+          const buttons = document.querySelectorAll("button");
+
+          buttons.forEach((button) => {
+
+            button.addEventListener('click',function clickPlayRound(e) {
+              let buttonID = button.id;
+              roundWinner = playRound(buttonID, computerPlay());
+              return roundWinner;
+            });
+          });
+
+      </script>
     </body>
 </html>
